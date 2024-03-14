@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
 
-    <TodoCounter/>
+    <TodoCounter completed={5} total={20}/>
     <TodoSearch/>
 
     <TodoList>
