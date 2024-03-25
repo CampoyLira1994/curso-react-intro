@@ -8,7 +8,7 @@ import { TodoItem } from './TodoItem/TodoItem';
 import React from 'react';
 
 
-const defaultTodo = [
+const defaultTodos = [
     { text: 'Test1', completed: true },
     { text: 'Test2', completed: false },
     { text: 'Test3', completed: false },
@@ -17,20 +17,58 @@ const defaultTodo = [
   ];
 
 function App() {
+
+  const [todos, setTodos] = React.useState(defaultTodos);
+  const [searchValue, setSearchValue] = React.useState('');
+
+  const completedTodos = todos.filter(todo => !!todo.completed).length;
+  const totalTodos = todos.length;
+
+  const searchedTodos = todos.filter( 
+    (todo) => {
+
+      const todoText = todo.text.toLocaleLowerCase();
+      const searchText = searchValue.toLocaleLowerCase();
+
+     return todoText.includes(searchText);
+    }
+  );
+
+  const completeTodo = (text) => {
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text === text);
+    newTodos[todoIndex].completed = true;
+    setTodos(newTodos);
+  };
+
+  const deleteTodo = (text) => {
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text === text);
+    newTodos.splice(todoIndex,1);
+    setTodos(newTodos);
+  };
+
   return (
     // eslint-disable-next-line react/jsx-no-undef
     <React.Fragment>
 
-    <TodoCounter completed={16} total={25}/>
-    <TodoSearch/>
+    <TodoCounter completed={completedTodos} total={totalTodos}/>
+    <TodoSearch
+        searchValue = {searchValue}
+        setSearchValue={setSearchValue}
+    />
 
     <TodoList>
 
-{defaultTodo.map(todo => (
+{searchedTodos.map(todo => (
   <TodoItem 
   key={todo.text} 
   text={todo.text}
   completed={todo.completed}
+  onComplete={() => completeTodo(todo.text)}
+  onDelete={() => deleteTodo(todo.text)}
   />
 ))}
 
