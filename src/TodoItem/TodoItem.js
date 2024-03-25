@@ -1,6 +1,8 @@
+import './TodoItem.css';
+
 function TodoItem(props){
     return (
-      <li>
+      <li className="TodoItem">
         <span>V</span>
         <p>{props.text}</p>
         <span>X</span>
