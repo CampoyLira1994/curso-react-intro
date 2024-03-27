@@ -59,7 +59,10 @@ function App() {
   );
 
   const saveTodosLocalStorage = (newTodos) => {
-    
+    localStorage.setItem('TODOS_V1', JSON.stringify(newTodos));
+
+    setTodos(newTodos);
+
   }
 
   const completeTodo = (text) => {
@@ -67,7 +70,7 @@ function App() {
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text === text);
     newTodos[todoIndex].completed = true;
-    setTodos(newTodos);
+    saveTodosLocalStorage(newTodos);
   };
 
   const deleteTodo = (text) => {
@@ -75,7 +78,7 @@ function App() {
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text === text);
     newTodos.splice(todoIndex,1);
-    setTodos(newTodos);
+    saveTodosLocalStorage(newTodos);
   };
 
   return (
